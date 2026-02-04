@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-outfit);
 
-@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-border: var(--border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* Light Blue / White Theme */
+  --background: #ffffff;
+  /* White */
+  --foreground: #0f172a;
+  /* Slate 900 - Deep Blue Text */
+
+  /* Primary: Vibrant Sky Blue */
+  --primary: #0ea5e9;
+  /* Sky 500 */
+  --primary-foreground: #ffffff;
+  /* White */
+
+  /* Secondary: Very Soft Blue */
+  --secondary: #f0f9ff;
+  /* Sky 50 */
+  --secondary-foreground: #0f172a;
+
+  /* Muted elements */
+  --muted: #f1f5f9;
+  /* Slate 100 */
+  --muted-foreground: #64748b;
+  /* Slate 500 */
+
+  /* Cards/Surfaces */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  /* Borders - Intense Blue for Contrast */
+  --border: #38bdf8;
+  /* Sky 400 */
+  /* Was Slate 200 #e2e8f0 */
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.03) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.03) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.03) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(14, 165, 233, 0.03) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), sans-serif;
+}
+
+@media print {
+
+  /* Hide interactive elements */
+  nav,
+  footer,
+  button,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset body */
+  body {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure text is visible and layout is linear */
+  section {
+    page-break-inside: avoid;
+    padding: 20px 0 !important;
+  }
+
+  /* Force dark sections to be printer friendly (optional, but requested to look like a CV) */
+  /* If the user wants the "Design" preserved in PDF, we keep backgrounds. 
+     If they want a "CV Document", we might strip colors. 
+     Given the request "convierte todo el portfolio en un CV", preserving the design is usually better for a "Portfolio PDF".
+     Modern browsers default to hiding backgrounds, so we force them if possible or let user check "Background graphics".
+  */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 }
