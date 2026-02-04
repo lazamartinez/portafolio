@@ -12,7 +12,7 @@ export function Contact() {
         const html2pdf = (await import('html2pdf.js')).default;
 
         const element = document.body;
-        const opt = {
+        const opt: any = {
             margin: 0,
             filename: 'CV_Lazaro_Martinez.pdf',
             image: { type: 'jpeg' as const, quality: 0.98 },
