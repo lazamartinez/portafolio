@@ -24,7 +24,7 @@ export function Contact() {
         const btn = document.getElementById('download-btn');
         if (btn) btn.style.display = 'none';
 
-        html2pdf().set(opt).from(element).save().then(() => {
+        html2pdf().set(opt as any).from(element).save().then(() => {
             if (btn) btn.style.display = 'flex';
         });
     };
