@@ -20,40 +20,51 @@
   --color-card-foreground: var(--card-foreground);
 
   --color-border: var(--border);
+
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  @keyframes shimmer {
+    from {
+      background-position: 0 0;
+    }
+
+    to {
+      background-position: -200% 0;
+    }
+  }
 }
 
 :root {
-  /* Light Blue / White Theme */
-  --background: #ffffff;
-  /* White */
-  --foreground: #0f172a;
-  /* Slate 900 - Deep Blue Text */
+  /* Deep Glass Theme - Dark Mode Default */
 
-  /* Primary: Vibrant Sky Blue */
-  --primary: #0ea5e9;
-  /* Sky 500 */
+  /* Background: Deep Slate / Void */
+  --background: #020617;
+  /* Slate 950 */
+  --foreground: #f8fafc;
+  /* Slate 50 */
+
+  /* Primary: Electric Violet */
+  --primary: #7c3aed;
+  /* Violet 600 */
   --primary-foreground: #ffffff;
-  /* White */
 
-  /* Secondary: Very Soft Blue */
-  --secondary: #f0f9ff;
-  /* Sky 50 */
-  --secondary-foreground: #0f172a;
+  /* Secondary: Hot Pink / Fuchsia */
+  --secondary: #db2777;
+  /* Pink 600 */
+  --secondary-foreground: #ffffff;
 
-  /* Muted elements */
-  --muted: #f1f5f9;
-  /* Slate 100 */
-  --muted-foreground: #64748b;
-  /* Slate 500 */
+  /* Muted: Deep Blue-Grey */
+  --muted: #1e293b;
+  /* Slate 800 */
+  --muted-foreground: #94a3b8;
+  /* Slate 400 */
 
-  /* Cards/Surfaces */
-  --card: #ffffff;
-  --card-foreground: #0f172a;
+  /* Cards are handled by GlassCard component, but defaults here */
+  --card: rgba(30, 41, 59, 0.5);
+  --card-foreground: #f8fafc;
 
-  /* Borders - Intense Blue for Contrast */
-  --border: #38bdf8;
-  /* Sky 400 */
-  /* Was Slate 200 #e2e8f0 */
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.1);
 }
 
 html {
@@ -64,12 +75,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+
+  /* Ambient Background Glows */
   background-image:
-    radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.03) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.03) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.03) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(14, 165, 233, 0.03) 0px, transparent 50%);
-  background-attachment: fixed;
+    radial-gradient(circle at 15% 50%, rgba(124, 58, 237, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(219, 39, 119, 0.08), transparent 25%);
 }
 
 h1,
@@ -81,38 +92,53 @@ h6 {
   font-family: var(--font-heading), sans-serif;
 }
 
-@media print {
+/* Custom Utilities */
+.text-shimmer {
+  background: linear-gradient(to right,
+      #f8fafc 20%,
+      #7c3aed 40%,
+      #db2777 60%,
+      #f8fafc 80%);
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
 
-  /* Hide interactive elements */
-  nav,
-  footer,
-  button,
-  .print\:hidden {
-    display: none !important;
-  }
+/* 
+   FIX for html2canvas/html2pdf error: "Attempting to parse an unsupported color function 'oklab'"
+   Tailwind v4 uses 'linear-gradient(in oklab ...)' by default for 'bg-linear-*'.
+   We override these to use standard 'linear-gradient(...)' (sRGB) which html2canvas supports.
+*/
+@utility bg-linear-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
 
-  /* Reset body */
-  body {
-    background: white !important;
-    color: black !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
+@utility bg-linear-to-l {
+  background-image: linear-gradient(to left, var(--tw-gradient-stops));
+}
 
-  /* Ensure text is visible and layout is linear */
-  section {
-    page-break-inside: avoid;
-    padding: 20px 0 !important;
-  }
+@utility bg-linear-to-t {
+  background-image: linear-gradient(to top, var(--tw-gradient-stops));
+}
 
-  /* Force dark sections to be printer friendly (optional, but requested to look like a CV) */
-  /* If the user wants the "Design" preserved in PDF, we keep backgrounds. 
-     If they want a "CV Document", we might strip colors. 
-     Given the request "convierte todo el portfolio en un CV", preserving the design is usually better for a "Portfolio PDF".
-     Modern browsers default to hiding backgrounds, so we force them if possible or let user check "Background graphics".
-  */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
+@utility bg-linear-to-b {
+  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+
+@utility bg-linear-to-tr {
+  background-image: linear-gradient(to top right, var(--tw-gradient-stops));
+}
+
+@utility bg-linear-to-tl {
+  background-image: linear-gradient(to top left, var(--tw-gradient-stops));
+}
+
+@utility bg-linear-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+@utility bg-linear-to-bl {
+  background-image: linear-gradient(to bottom left, var(--tw-gradient-stops));
 }

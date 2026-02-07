@@ -3,31 +3,37 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/language-context";
 import { Code2, Database, Layout, Terminal, Server, Cpu, User } from "lucide-react";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { GlassCard } from "@/components/ui/glass-card";
 
-const skillCategories = [
-    {
-        name: "Desarrollo",
-        icon: <Code2 className="w-5 h-5" />,
-        skills: ["Software Engineering", "System Analysis", "Algorithms", "OOP", "Design Patterns"]
-    },
-    {
-        name: "Frontend & Backend",
-        icon: <Layout className="w-5 h-5" />,
-        skills: ["React", "Next.js", "Node.js", "C++", "Go", "TypeScript"]
-    },
-    {
-        name: "Datos & Infraestructura",
-        icon: <Database className="w-5 h-5" />,
-        skills: ["SQL", "PostgreSQL", "Firebase", "AWS", "Docker", "Git"]
-    }
-];
+// skillCategories moved inside component
 
 export function About() {
     const { t } = useLanguage();
 
+    const skillCategories = [
+        {
+            name: t("catDev"),
+            icon: <Code2 className="w-5 h-5" />,
+            skills: ["Software Engineering", "System Analysis", "Algorithms", "OOP", "Design Patterns"]
+        },
+        {
+            name: t("catFrontend"),
+            icon: <Layout className="w-5 h-5" />,
+            skills: ["React", "Next.js", "Node.js", "C++", "Go", "TypeScript"]
+        },
+        {
+            name: t("catData"),
+            icon: <Database className="w-5 h-5" />,
+            skills: ["SQL", "PostgreSQL", "Firebase", "AWS", "Docker", "Git"]
+        }
+    ];
+
     return (
-        <section className="py-24 bg-[#0284c7] text-white" id="about">
+        <section className="py-24 relative overflow-hidden" id="about">
             <div className="container mx-auto px-4">
+                <SectionHeading title={t("about")} subtitle="Perfil Profesional" />
+
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -38,48 +44,38 @@ export function About() {
                     <div className="flex flex-col lg:flex-row gap-12 items-start">
                         {/* Professional Profile Card */}
                         <div className="flex-1 w-full lg:w-3/5">
-                            <div className="flex items-center gap-2 mb-6">
-                                <User className="w-5 h-5 text-white/90" />
-                                <span className="text-white/90 font-medium tracking-wider uppercase text-sm">Perfil Profesional</span>
-                            </div>
+                            <GlassCard className="p-8 h-full" hoverEffect={false}>
+                                <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
+                                    <div className="p-2 rounded-lg bg-primary/20 text-primary">
+                                        <User className="w-5 h-5" />
+                                    </div>
+                                    <span className="text-white font-bold tracking-wider uppercase text-sm">{t("profileSummary")}</span>
+                                </div>
 
-                            <motion.div
-                                className="bg-white/10 border border-white/20 rounded-2xl p-8 shadow-sm relative overflow-hidden backdrop-blur-sm"
-                                whileHover={{ scale: 1.01 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {/* Decorative background element */}
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-full -z-10" />
-
-                                <div className="prose prose-lg text-white/90 leading-relaxed space-y-4">
-                                    <p className="font-medium text-white text-xl">
-                                        Analista en Sistemas de Computación, con formación universitaria en Sistemas de Información, enfocado en el desarrollo y la mejora de soluciones de software orientadas a procesos y requerimientos reales del negocio.
+                                <div className="prose prose-lg text-slate-300 leading-relaxed space-y-4">
+                                    <p className="font-medium text-white text-lg">
+                                        {t("bio1")}
                                     </p>
-                                    <p>
-                                        Poseo una base técnica sólida en programación, algoritmos y estructuras de datos, bases de datos, ingeniería de software, sistemas operativos y redes, lo que me permite abordar los sistemas de manera integral y comprender su funcionamiento en diferentes niveles. He participado en el análisis de requerimientos, diseño lógico y desarrollo de soluciones, interviniendo en diversas etapas del ciclo de vida del software.
+                                    <p className="text-sm">
+                                        {t("bio2")}
                                     </p>
-                                    <p>
-                                        Realicé proyectos académicos y sistemas de gestión, aplicando programación orientada a objetos, buenas prácticas de desarrollo y criterios de diseño mantenible. Mi perfil es principalmente backend, con conocimientos en frontend, y un marcado interés en la automatización de procesos, optimización de flujos de trabajo y mejora continua de soluciones tecnológicas.
-                                    </p>
-                                    <p>
-                                        Me destaco por el pensamiento analítico, la responsabilidad y la capacidad de aprendizaje constante, con el objetivo de integrarme a equipos de desarrollo y aportar valor mientras continúo creciendo profesionalmente.
+                                    <p className="text-sm">
+                                        {t("bio3")}
                                     </p>
                                 </div>
-                            </motion.div>
+                            </GlassCard>
                         </div>
 
                         {/* Skills Categories */}
-                        <div className="flex-1 w-full lg:w-2/5 space-y-8 lg:pt-12">
+                        <div className="flex-1 w-full lg:w-2/5 space-y-6">
                             {skillCategories.map((category, idx) => (
-                                <motion.div
+                                <GlassCard
                                     key={category.name}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: idx * 0.1 }}
+                                    className="p-6"
+                                    hoverEffect={true}
                                 >
-                                    <div className="flex items-center gap-2 mb-4 text-white font-semibold">
-                                        <div className="p-2 bg-white/10 rounded-lg text-white">
+                                    <div className="flex items-center gap-3 mb-4 text-white font-semibold">
+                                        <div className="p-2 bg-secondary/20 rounded-lg text-secondary">
                                             {category.icon}
                                         </div>
                                         {category.name}
@@ -88,13 +84,13 @@ export function About() {
                                         {category.skills.map(skill => (
                                             <span
                                                 key={skill}
-                                                className="px-3 py-1 bg-white/10 border border-white/20 rounded-md text-sm text-white/90 hover:bg-white hover:text-[#0284c7] transition-colors shadow-sm"
+                                                className="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-xs text-slate-300 hover:text-white hover:border-primary/50 hover:bg-primary/10 transition-colors cursor-default"
                                             >
                                                 {skill}
                                             </span>
                                         ))}
                                     </div>
-                                </motion.div>
+                                </GlassCard>
                             ))}
                         </div>
                     </div>

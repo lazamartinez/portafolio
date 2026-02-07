@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Briefcase, Calendar, MapPin, GraduationCap } from "lucide-react";
+import { GlassCard } from "@/components/ui/glass-card";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { useLanguage } from "@/lib/language-context";
 
 const experienceData = [
     {
@@ -28,61 +31,59 @@ const experienceData = [
 ];
 
 export function Experience() {
+    const { t } = useLanguage();
+
     return (
-        <section className="py-24 bg-[#0284c7] text-white overflow-hidden relative" id="experience">
-            {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-            </div>
-
+        <section className="py-24 relative overflow-hidden" id="experience">
             <div className="container mx-auto px-4 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="max-w-6xl mx-auto"
-                >
-                    <div className="text-center mb-16">
-                        <span className="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold tracking-wider uppercase mb-4 backdrop-blur-sm">
-                            Experiencia
-                        </span>
-                        <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Mi Trayectoria</h2>
-                    </div>
+                <SectionHeading title={t("experienceTitle")} subtitle={t("experienceSubtitle")} />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {experienceData.map((item, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="group relative bg-white/10 border border-white/20 rounded-2xl p-8 backdrop-blur-md hover:bg-white/15 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col h-full"
-                            >
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className="p-3 bg-white/10 rounded-xl text-white group-hover:scale-110 transition-transform duration-300">
-                                        {item.type === "education" ? <GraduationCap className="w-6 h-6" /> : <Briefcase className="w-6 h-6" />}
+                <div className="max-w-5xl mx-auto space-y-8">
+                    {experienceData.map((item, index) => (
+                        <GlassCard
+                            key={index}
+                            className="p-8 relative overflow-hidden group transition-all duration-300 hover:bg-white/10"
+                            hoverEffect={true}
+                        >
+                            {/* Decorative Gradient Background on Hover */}
+                            <div className="absolute inset-0 bg-linear-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                            <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start">
+                                <div className="flex-shrink-0">
+                                    <div className="w-16 h-16 rounded-2xl bg-black/40 backdrop-blur-xl flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-110 group-hover:shadow-primary/25 transition-all duration-300 relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-linear-to-br from-primary/20 to-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        {item.type === "education" ?
+                                            <GraduationCap className="w-7 h-7 text-primary group-hover:text-white transition-colors relative z-10" /> :
+                                            <Briefcase className="w-7 h-7 text-secondary group-hover:text-white transition-colors relative z-10" />
+                                        }
                                     </div>
-                                    <span className="text-xs font-semibold bg-white/20 px-3 py-1 rounded-full text-white/90">
-                                        {item.period}
-                                    </span>
                                 </div>
 
-                                <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+                                <div className="flex-1 w-full">
+                                    <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-2">
+                                        <div>
+                                            <h3 className={`text-xl font-bold transition-colors ${item.type === 'education' ? 'text-primary' : 'text-white'} group-hover:text-white`}>
+                                                {item.title}
+                                            </h3>
+                                            <div className="flex items-center gap-2 text-slate-400 text-sm font-medium mt-1">
+                                                <MapPin className="w-3.5 h-3.5 text-primary/70" />
+                                                {item.organization}
+                                            </div>
+                                        </div>
 
-                                <div className="flex items-center gap-2 text-white/80 mb-4 text-sm font-medium">
-                                    <MapPin className="w-4 h-4" />
-                                    {item.organization}
+                                        <span className="self-start md:self-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:bg-primary/20 group-hover:border-primary/30 transition-all">
+                                            {item.period}
+                                        </span>
+                                    </div>
+
+                                    <p className="text-slate-300/90 text-sm leading-relaxed mt-4 border-t border-white/5 pt-4">
+                                        {item.description}
+                                    </p>
                                 </div>
-
-                                <p className="text-white/80 text-sm leading-relaxed mt-auto">
-                                    {item.description}
-                                </p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
+                            </div>
+                        </GlassCard>
+                    ))}
+                </div>
             </div>
         </section>
     );

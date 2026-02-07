@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Github, Linkedin, Mail, Globe } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { Menu, X, Github, Linkedin, Mail, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/lib/language-context";
+import { NeonButton } from "@/components/ui/neon-button";
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -18,7 +19,7 @@ export function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
+            setIsScrolled(window.scrollY > 20);
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -31,104 +32,126 @@ export function Navbar() {
         { name: t("contact"), href: "#contact" },
     ];
 
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
+
+    const handleDownloadCV = () => {
+        const link = document.createElement('a');
+        link.href = '/cv-laza.pdf';
+        link.download = 'cv-laza.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
-        <nav
-            className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                isScrolled
-                    ? "bg-background/80 backdrop-blur-md border-b border-border h-16"
-                    : "bg-transparent h-20"
-            )}
-        >
-            <div className="container mx-auto px-4 h-full flex items-center justify-between">
-                <Link href="/" className="font-heading font-bold text-xl tracking-tight">
-                    Martinez <span className="text-primary">Lázaro Ezequiel</span>
-                </Link>
+        <>
+            <motion.nav
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.5 }}
+                className={cn(
+                    "fixed top-4 left-0 right-0 z-50 transition-all duration-300 mx-auto max-w-5xl rounded-full px-6 overflow-hidden",
+                    isScrolled
+                        ? "bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg py-3"
+                        : "bg-transparent py-5"
+                )}
+            >
+                <div className="flex items-center justify-between relative z-10">
+                    <Link href="/" className="font-heading font-bold text-xl tracking-tight flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center font-bold text-white shadow-lg shadow-primary/20">
+                            LM
+                        </div>
+                        <span className="hidden sm:inline">Martinez <span className="text-primary">Lázaro</span></span>
+                    </Link>
 
-                {/* Desktop Menu */}
-                <div className="hidden md:flex items-center gap-8">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.name}
-                            href={item.href}
-                            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors hover:glow"
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
+                    {/* Desktop Menu */}
+                    <div className="hidden md:flex items-center gap-1">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors relative group"
+                            >
+                                {item.name}
+                                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-1/2 transition-all duration-300" />
+                            </Link>
+                        ))}
+                    </div>
 
-                    <div className="flex items-center gap-4 ml-4 border-l border-border pl-4">
+                    <div className="hidden md:flex items-center gap-4">
                         <button
                             onClick={toggleLanguage}
-                            className="px-3 py-1 rounded-full border border-border bg-secondary/50 text-xs font-medium hover:border-primary/50 transition-colors flex items-center gap-2"
+                            className="text-xs font-medium text-muted-foreground hover:text-white transition-colors"
                         >
-                            <Globe className="w-3 h-3" />
-                            {language === "es" ? "English" : "Español"}
+                            {language === "es" ? "EN" : "ES"}
                         </button>
 
-                        <Link href="https://github.com/lazamartinez" target="_blank" className="text-muted-foreground hover:text-primary transition-colors">
-                            <Github className="w-5 h-5" />
-                        </Link>
-                        <Link href="https://linkedin.com" target="_blank" className="text-muted-foreground hover:text-primary transition-colors">
-                            <Linkedin className="w-5 h-5" />
-                        </Link>
+                        <div className="flex items-center gap-3 border-l border-white/10 pl-4">
+                            <Link href="https://github.com/lazamartinez" target="_blank" className="text-muted-foreground hover:text-white transition-colors">
+                                <Github className="w-5 h-5" />
+                            </Link>
+                            <Link href="https://linkedin.com" target="_blank" className="text-muted-foreground hover:text-white transition-colors">
+                                <Linkedin className="w-5 h-5" />
+                            </Link>
+                        </div>
+
+                        <NeonButton onClick={handleDownloadCV} variant="primary" className="px-5 py-2 text-xs ml-2">
+                            {t("downloadCV")} <FileText className="w-3 h-3 ml-1" />
+                        </NeonButton>
                     </div>
+
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        className="md:hidden p-2 text-white"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        {isMobileMenuOpen ? <X /> : <Menu />}
+                    </button>
                 </div>
 
-                {/* Mobile Menu Toggle */}
-                <button
-                    className="md:hidden p-2 text-foreground"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <X /> : <Menu />}
-                </button>
-            </div>
+                {/* Scroll Progress Border */}
+                <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-secondary to-primary origin-left"
+                    style={{ scaleX }}
+                />
+            </motion.nav>
 
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-full left-0 right-0 bg-background border-b border-border md:hidden p-4 flex flex-col gap-4 shadow-2xl"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="fixed inset-0 z-40 bg-black/95 backdrop-blur-md pt-24 px-6 flex flex-col items-center justify-center gap-8 md:hidden"
                     >
                         {navItems.map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="text-lg font-medium text-foreground py-2 border-b border-border/50 last:border-0"
+                                className="text-2xl font-bold text-white hover:text-primary transition-colors"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 {item.name}
                             </Link>
                         ))}
 
-                        <button
-                            onClick={() => {
-                                toggleLanguage();
-                                setIsMobileMenuOpen(false);
-                            }}
-                            className="flex items-center gap-2 text-sm font-medium text-primary py-2"
-                        >
-                            <Globe className="w-4 h-4" />
-                            {language === "es" ? "Switch to English" : "Cambiar a Español"}
-                        </button>
-
-                        <div className="flex gap-4 mt-2">
-                            <Link href="https://github.com/lazamartinez" target="_blank" className="p-2 bg-secondary rounded-full">
-                                <Github className="w-5 h-5" />
+                        <div className="flex gap-6 mt-8">
+                            <Link href="https://github.com/lazamartinez" target="_blank" className="p-4 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
+                                <Github className="w-6 h-6" />
                             </Link>
-                            <Link href="https://linkedin.com" target="_blank" className="p-2 bg-secondary rounded-full">
-                                <Linkedin className="w-5 h-5" />
-                            </Link>
-                            <Link href="mailto:contact@example.com" className="p-2 bg-secondary rounded-full">
-                                <Mail className="w-5 h-5" />
+                            <Link href="https://linkedin.com" target="_blank" className="p-4 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
+                                <Linkedin className="w-6 h-6" />
                             </Link>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+        </>
     );
 }

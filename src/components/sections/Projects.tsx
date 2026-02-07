@@ -4,6 +4,10 @@ import { motion } from "framer-motion";
 import { Github, ExternalLink, Code } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { ImageCarousel } from "@/components/ui/ImageCarousel";
+import { GlassCard } from "@/components/ui/glass-card";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { TechBadge } from "@/components/ui/tech-badge";
+import { NeonButton } from "@/components/ui/neon-button";
 
 const projects = [
     {
@@ -32,61 +36,55 @@ export function Projects() {
     const { t } = useLanguage();
 
     return (
-        <section className="py-24 bg-background" id="projects">
+        <section className="py-24 relative" id="projects">
             <div className="container mx-auto px-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <span className="text-primary font-medium tracking-wider uppercase text-sm">{t("projects")}</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mt-2">{t("featuredProjects")}</h2>
-                </motion.div>
+                <SectionHeading title={t("featuredProjects")} subtitle={t("projects")} />
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                     {projects.map((project, index) => (
-                        <motion.div
+                        <GlassCard
                             key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="group bg-card border border-primary/10 rounded-xl overflow-hidden hover:border-primary/30 transition-all hover:shadow-lg hover:shadow-primary/5 flex flex-col"
+                            className="flex flex-col h-full !p-0 border-white/10 bg-white/5"
+                            hoverEffect={true}
                         >
-                            {project.images && project.images.length > 0 ? (
-                                <ImageCarousel images={project.images} />
-                            ) : (
-                                <div className="aspect-video bg-secondary/50 relative overflow-hidden flex items-center justify-center">
-                                    <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
-                                    <Code className="w-12 h-12 text-primary/40 group-hover:text-primary/80 transition-all group-hover:scale-110" />
-                                </div>
-                            )}
+                            <div className="relative w-full h-56 bg-black/50 overflow-hidden group">
+                                {project.images && project.images.length > 0 ? (
+                                    <ImageCarousel images={project.images} />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-primary/10 to-secondary/10">
+                                        <Code className="w-16 h-16 text-primary/40" />
+                                    </div>
+                                )}
+                                {/* Overlay Gradient */}
+                                <div className="absolute inset-0 bg-linear-to-t from-[#020617] to-transparent opacity-60" />
+                            </div>
 
-                            <div className="p-6 flex flex-col flex-1">
-                                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
-                                <p className="text-muted-foreground mb-4 line-clamp-3 text-sm">{project.description}</p>
+                            <div className="p-8 flex flex-col flex-1 relative z-10">
+                                <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors">{project.title}</h3>
+                                <p className="text-slate-300 mb-6 line-clamp-3 text-sm leading-relaxed">{project.description}</p>
 
-                                <div className="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <div className="flex flex-wrap gap-2 mb-8 mt-auto">
                                     {project.tags.map((tag) => (
-                                        <span key={tag} className="px-2 py-1 bg-secondary text-xs rounded-md text-secondary-foreground font-medium">
-                                            {tag}
-                                        </span>
+                                        <TechBadge key={tag} name={tag} />
                                     ))}
                                 </div>
 
-                                <div className="flex items-center gap-4 pt-4 border-t border-border">
-                                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors">
-                                        <Github className="w-4 h-4" /> Code
+                                <div className="flex items-center gap-4 pt-6 border-t border-white/10">
+                                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex-1">
+                                        <NeonButton variant="outline" className="w-full justify-center text-xs h-10">
+                                            <Github className="w-4 h-4" /> {t("sourceCode")}
+                                        </NeonButton>
                                     </a>
                                     {project.demo !== "#" && (
-                                        <a href={project.demo} className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors">
-                                            <ExternalLink className="w-4 h-4" /> Live Demo
+                                        <a href={project.demo} className="flex-1">
+                                            <NeonButton variant="primary" className="w-full justify-center text-xs h-10">
+                                                <ExternalLink className="w-4 h-4" /> {t("liveDemo")}
+                                            </NeonButton>
                                         </a>
                                     )}
                                 </div>
                             </div>
-                        </motion.div>
+                        </GlassCard>
                     ))}
                 </div>
             </div>
