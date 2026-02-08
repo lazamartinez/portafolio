@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { Menu, X, Github, Linkedin, Mail, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -63,10 +64,15 @@ export function Navbar() {
             >
                 <div className="flex items-center justify-between relative z-10">
                     <Link href="/" className="font-heading font-bold text-xl tracking-tight flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center font-bold text-white shadow-lg shadow-primary/20">
-                            LM
+                        <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/10 shadow-lg shadow-primary/20">
+                            <Image
+                                src="/profile.png"
+                                alt="Profile"
+                                fill
+                                className="object-cover"
+                            />
                         </div>
-                        <span className="hidden sm:inline">Martinez <span className="text-primary">Lázaro</span></span>
+                        <span className="hidden sm:inline">Martinez <span className="text-primary">Lázaro Ezequiel</span></span>
                     </Link>
 
                     {/* Desktop Menu */}
@@ -98,6 +104,9 @@ export function Navbar() {
                             <Link href="https://linkedin.com" target="_blank" className="text-muted-foreground hover:text-white transition-colors">
                                 <Linkedin className="w-5 h-5" />
                             </Link>
+                            <a href="mailto:lazamartinez1999@gmail.com" className="text-muted-foreground hover:text-white transition-colors">
+                                <Mail className="w-5 h-5" />
+                            </a>
                         </div>
 
                         <NeonButton onClick={handleDownloadCV} variant="primary" className="px-5 py-2 text-xs ml-2">

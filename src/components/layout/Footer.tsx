@@ -8,7 +8,7 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
                     {/* Brand Column */}
                     <div className="space-y-4">
-                        <h3 className="text-2xl font-bold tracking-tight">Lazaro Martinez</h3>
+                        <h3 className="text-2xl font-bold tracking-tight">Martinez Lázaro Ezequiel</h3>
                         <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
                             Analista en Sistemas de Computación y Desarrollador Full Stack. Creando soluciones digitales eficientes y escalables.
                         </p>
@@ -63,7 +63,7 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
                     <p>
-                        © {new Date().getFullYear()} Martinez Lazaro Ezequiel. Todos los derechos reservados.
+                        © {new Date().getFullYear()} Martinez Lázaro Ezequiel. Todos los derechos reservados.
                     </p>
                     <div className="flex gap-6">
                         <span className="cursor-not-allowed">Privacidad</span>

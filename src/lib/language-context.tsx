@@ -47,14 +47,14 @@ const translations = {
         educationSubtitle: "Educación",
         viewDetails: "Ver detalles",
         subjectsRegistered: "materias registradas",
-        plan: "Plan",
+        plan: "Período",
         // Statuses
         promoted: "Promocionado",
         approved: "Aprobado",
         equivalence: "Equivalencia",
         regular: "Regular",
         // General
-        description: "Soy Martinez Lazaro Ezequiel, un Desarrollador Full Stack apasionado por crear aplicaciones web hermosas, funcionales y de alto rendimiento.",
+        description: "Soy Martinez Lázaro Ezequiel, un Desarrollador Full Stack apasionado por crear aplicaciones web hermosas, funcionales y de alto rendimiento.",
         techStack: "Tecnologías",
         featuredProjects: "Proyectos Destacados",
         getInTouch: "Contacto",
@@ -102,14 +102,14 @@ const translations = {
         educationSubtitle: "Education",
         viewDetails: "View Details",
         subjectsRegistered: "subjects registered",
-        plan: "Plan",
+        plan: "Period",
         // Statuses
         promoted: "Promoted",
         approved: "Approved",
         equivalence: "Equivalence",
         regular: "Regular",
         // General
-        description: "I'm Martinez Lazaro Ezequiel, a Full Stack Developer passionate about creating beautiful, functional, and performant web applications.",
+        description: "I'm Martinez Lázaro Ezequiel, a Full Stack Developer passionate about creating beautiful, functional, and performant web applications.",
         techStack: "Tech Stack",
         featuredProjects: "Featured Projects",
         getInTouch: "Get In Touch",

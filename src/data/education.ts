@@ -18,7 +18,7 @@ export const educationData: Degree[] = [
     {
         title: "Licenciatura en Sistemas de Información",
         institution: "Universidad Nacional de Misiones",
-        plan: "2013",
+        plan: "2020 - 2026",
         state: "En curso",
         subjects: [
             { name: "Matemática I", grade: 6, status: "Aprobado", period: "1er. Cuatrimestre" },
@@ -66,7 +66,7 @@ export const educationData: Degree[] = [
     {
         title: "Analista en Sistemas de Computación",
         institution: "Universidad Nacional de Misiones",
-        plan: "2010",
+        plan: "2020 - 2026",
         state: "En curso",
         subjects: [
             { name: "Algoritmo y Estructura de Datos I", grade: 8, status: "Equivalencia", period: "1° anual" },
